@@ -18,6 +18,12 @@
     let rounds = 0;
     let playerWins = 0;
     let computerWins = 0;
+    const container = document.querySelector('.container');
+    const buttons = document.querySelectorAll('button');
+    
+
+
+    //Play Round checks to see who won the round of RPS and updates the Score
     function playRound(playerSelection, computerSelection){
       if(playerSelection == computerSelection){
         return "You Tie! " + playerSelection + " equals " + computerSelection;
@@ -68,6 +74,7 @@
         return "Input was not correct"
       }
     }
+    
     function computerChoice(){
       
       let x = Math.floor(Math.random() * 3);
@@ -80,55 +87,40 @@
         return "Scissors";
       }
     }
-//addscoring words on page
-//get Output on screen
-//get score
+    //creates new p tag and adds it to the div called container
+    function addParagraphTag(str){
+      const p = document.createElement('p');
+      p.innerHTML = str;
+      container.append(p);
+    }
+
+    //resets the score of the game
+    function resetGame(){
+      playerWins = 0;
+      computerWins = 0;
+    }
+
 
     function game(){
-      console.log("Game Started");
       rounds = 0;
       playerWins = 0;
       computerWins = 0;
-      let playerchoice = "";
-      const container = document.querySelector('.container');
-      const buttons = document.querySelectorAll('button');
-      
       buttons.forEach((button) => {
-        console.log("For each started");
         button.onclick = function(){
           let computer = computerChoice();
-          console.log("computer choice " +  computer);
           let player =  "" + button.id;
-          console.log("player choice " +  player);
-          const p = document.createElement('p');
-          p.innerHTML = "<p>" + playRound(player, computer) +" The Score is player " + playerWins + " and computer " + computerWins  +"</p>";
-          container.append(p);
+          addParagraphTag("<p>" + playRound(player, computer) +" The Score is player " + playerWins + " and computer " + computerWins  +"</p>");
           rounds ++;
-          if(playerWins >= 5){
-              const p = document.createElement('p');
-              p.innerHTML =  "<p>You won " + playerWins + "-" + computerWins + "</p>";
-              container.append(p);
-              playerWins = 0;
-              computerWins = 0;
-          }else if(computerWins >= 5){
-            const p = document.createElement('p');
-            p.innerHTML =  "<p>You Lose " + playerWins + "-" + computerWins + "</p>";
-            container.append(p);
-            playerWins = 0;
-            computerWins = 0;
+          if(playerWins >= 3){
+              addParagraphTag("<p>You won " + playerWins + "-" + computerWins + "</p>");
+              resetGame();
+          }else if(computerWins >= 3){
+            addParagraphTag("<p>You Lose " + playerWins + "-" + computerWins + "</p>");
+            resetGame();
           }
           };
           });
-      
-      
-      
-      
-
       }
-      
-    
-
-
     let r = "Rock"
     let s = "Scissors"
     let p = "Paper"
